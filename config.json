@@ -2,6 +2,7 @@
 
 	"game": {
 		"title": "Mimo",
+		"version": 0.1,
 		"sizes": [
 			[320, 240],
 			[640, 480],
@@ -12,7 +13,7 @@
 
 	"tile": {
 		"size": 16
-	}
+	},
 
 	"window": {
 		"size": 1
