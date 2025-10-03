@@ -2,20 +2,54 @@
 
 # import modules
 
+import json
 import pygame
+import Scripts.objects as objects
+
+
+# check if maps are initialized
+_initialized = False
+def get_init():
+    return _initialized
+
+
+# initialize list of maps
+def init():
+
+    # get maps data from json file
+    maps_data = None
+    with open("Data/maps.json", "r") as file:
+        maps_data = json.load(file)
+        print(maps_data)
+
+    # foreach map data make a map
+    for map_data in maps_data:
+        map_ = map_data.copy()
+        objects.maps[map_["name"]] = map_
+
+    # set maps as initialized
+    _initialized = True
 
 
 # draw map function
 
-def draw_map(display, camera, tileset, map_data):
+def draw_map(camera, map_name):
+
+    display = objects.display
+    tilesets = objects.tilesets
+    maps = objects.maps
+
+    map_data = maps[map_name]
+    tileset = tilesets[map_data["tileset"]["name"]]
 
     tiles = map_data["tiles"] # données des tuiles dans la map
     tile_size = tileset["tile"]["size"] # taille d'une tuile dans le tileset
     map_width = map_data["width"] # largeur de la map en tuiles (pas pixels)
     map_height = map_data["height"] # hauteur de la map en tuiles (pas pixels)
+    tileset = tilesets[map_data["tileset"]["name"]] # sélectionne le jeu de tuile source
 
-    for row in range(len(map_height)):
-        for in col in range(len(map_width)):
+    for row in range(map_height):
+        for col in range(map_width):
             
             tile_id = tiles[row][col] # id de la tuile à afficher
             tile_x = col * tile_size - camera["x"] # coordonnées x par rapport au display

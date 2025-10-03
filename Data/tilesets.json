@@ -3,7 +3,7 @@
 		"name": "outdoor",
 		"tile": {
 			"size": 16
-		}
+		},
 		"width": 10,
 		"height": 10
 	}
