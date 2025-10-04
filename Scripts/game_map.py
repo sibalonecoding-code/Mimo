@@ -9,7 +9,7 @@ import Scripts.objects as objects
 
 # check if maps are initialized
 _initialized = False
-def get_init():
+def getInit():
     return _initialized
 
 
@@ -20,7 +20,6 @@ def init():
     maps_data = None
     with open("Data/maps.json", "r") as file:
         maps_data = json.load(file)
-        print(maps_data)
 
     # foreach map data make a map
     for map_data in maps_data:
@@ -33,7 +32,7 @@ def init():
 
 # draw map function
 
-def draw_map(camera, map_name):
+def draw_map(map_name):
 
     display = objects.display
     tilesets = objects.tilesets
@@ -52,8 +51,8 @@ def draw_map(camera, map_name):
         for col in range(map_width):
             
             tile_id = tiles[row][col] # id de la tuile à afficher
-            tile_x = col * tile_size - camera["x"] # coordonnées x par rapport au display
-            tile_y = row * tile_size - camera["y"] # coordonnées y par rapport au display
+            tile_x = col * tile_size - objects.camera["x"] # coordonnées x par rapport au display
+            tile_y = row * tile_size - objects.camera["y"] # coordonnées y par rapport au display
 
             source_x = (tile_id % tileset["width"]) * tile_size # coordonnées x par rapport au tileset
             source_y = (tile_id // tileset["width"]) * tile_size # coordonnées y par rapport au tileset

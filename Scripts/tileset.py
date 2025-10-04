@@ -9,7 +9,7 @@ import Scripts.objects as objects
 
 # check if tilesets are initialized
 _initialized = False
-def get_init():
+def getInit():
     return _initialized
 
     
@@ -20,7 +20,6 @@ def init():
     tilesets_data = None
     with open("Data/tilesets.json", "r") as file:
         tilesets_data = json.load(file)
-        print(tilesets_data)
 
     # foreach tileset data make a tileset
     for tileset_data in tilesets_data:

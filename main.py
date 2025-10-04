@@ -2,34 +2,36 @@
 
 # import modules
 
+import time
 import json
 import pygame
 import Scripts.inputs as inputs
 import Scripts.tileset as tileset
-import Scripts.map_ as map_
+import Scripts.game_map as game_map
+import Scripts.scene as scene
 import Scripts.objects as objects
-
 
 # initialize pygame
 if not pygame.get_init():
     pygame.init()
 
 # initialize tilesets
-if not tileset.get_init():
+if not tileset.getInit():
     tileset.init()
 
 # initialize maps
-if not map_.get_init():
-    map_.init()
+if not game_map.getInit():
+    game_map.init()
 
+# initialize first scene
+scene.sceneAppend("scene_map")
 
-camera = {
-    "x": 0,
-    "y": 0
-}
 
 # main loop
 running = True
+current_tick = time.time()
+previous_tick = time.time()
+
 while running:
 
     # handle pygame events
@@ -42,14 +44,25 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    current_tick = time.time()
+    elapsed_time = float(current_tick - previous_tick) * 1000.0
+    previous_tick = current_tick
+
+    # handle player inputs
+    scene.updateInputs(elapsed_time)
+
     # clear display in black
     objects.display.fill([0, 0, 0])
 
-    # draw map on display
-    map_.draw_map(camera, "Forest 001")
+    # update scene graphics
+    scene.updateGraphics()
 
     # draw display on window
     objects.window.blit(pygame.transform.scale(objects.display, objects.WINDOW_SIZE))
 
     # update pygame graphics
     pygame.display.update()
+
+    # limit fps
+    objects.clock.tick(objects.FPS)
+    

@@ -23,6 +23,7 @@ WINDOW_SIZE = SIZES[WINDOW_SIZE_ID]
 DISPLAY_SIZE = config["display"]["size"]
 GAME_TITLE = config["game"]["title"]
 GAME_VERSION = config["game"]["version"]
+FPS = config["game"]["fps"]
 
 
 # create global objects
@@ -30,6 +31,12 @@ window = pygame.display.set_mode(WINDOW_SIZE)
 display = pygame.Surface(DISPLAY_SIZE)
 tilesets = dict()
 maps = dict()
+scenes = list()
+camera = {
+    "x": 0,
+    "y": 0
+}
+clock = pygame.time.Clock()
 
 # change window's title
 pygame.display.set_caption(f"{GAME_TITLE} v{GAME_VERSION}")
