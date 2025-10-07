@@ -45,7 +45,7 @@ while running:
             running = False
 
     current_tick = time.time()
-    elapsed_time = float(current_tick - previous_tick) * 1000.0
+    elapsed_time = float(current_tick - previous_tick) * 30
     previous_tick = current_tick
 
     # handle player inputs

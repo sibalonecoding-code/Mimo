@@ -27,7 +27,7 @@ def update(event):
 
     elif event.type == pygame.KEYUP:
         clicked_key[event.key] = True
-        print(clicked_key)
+        # print(clicked_key)
 
     # joysticks part
     
