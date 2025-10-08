@@ -24,6 +24,8 @@ DISPLAY_SIZE = config["display"]["size"]
 GAME_TITLE = config["game"]["title"]
 GAME_VERSION = config["game"]["version"]
 FPS = config["game"]["fps"]
+PLAYER_WIDTH = 16
+PLAYER_HEIGHT = 16
 
 
 # create global objects
@@ -34,7 +36,8 @@ maps = dict()
 scenes = list()
 camera = {
     "x": 0,
-    "y": 0
+    "y": 0,
+    "on_player": True
 }
 clock = pygame.time.Clock()
 

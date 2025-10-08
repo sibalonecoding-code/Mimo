@@ -4,6 +4,7 @@
 
 import time
 import pygame
+import Scripts.inputs as inputs
 import Scripts.objects as objects
 
 
@@ -46,16 +47,27 @@ def update(dt):
 
     pressed_keys = pygame.key.get_pressed()
 
+    if pygame.K_a in inputs.clicked_key and inputs.clicked_key[pygame.K_a]:
+        objects.camera["on_player"] = False if objects.camera["on_player"] else True
+
     # update player position
     if not player_position_locked:
         if pressed_keys[pygame.K_LEFT]:
             position["x"] -= player_speed * dt
+            if objects.camera["on_player"]:
+                objects.camera["x"] -= player_speed * dt
         if pressed_keys[pygame.K_RIGHT]:
             position["x"] += player_speed * dt
+            if objects.camera["on_player"]:
+                objects.camera["x"] += player_speed * dt
         if pressed_keys[pygame.K_UP]:
             position["y"] -= player_speed * dt
+            if objects.camera["on_player"]:
+                objects.camera["y"] -= player_speed * dt
         if pressed_keys[pygame.K_DOWN]:
             position["y"] += player_speed * dt
+            if objects.camera["on_player"]:
+                objects.camera["y"] += player_speed * dt
     
     # update frame id
     if not player_frame_locked:
@@ -91,11 +103,13 @@ def update(dt):
 
     
 def draw():
+    x = objects.DISPLAY_SIZE[0] // 2 - objects.PLAYER_WIDTH // 2 - objects.camera["x"] + position["x"]
+    y = objects.DISPLAY_SIZE[1] // 2 - objects.PLAYER_HEIGHT // 2 - objects.camera["y"] + position["y"]
     sy = 16 * player_direction
     sx = 16 * player_frame
     objects.display.blit(
         player_image,
-        [position["x"], position["y"]],
+        [x, y],
         [sx, sy, 16, 16]
     )
 
