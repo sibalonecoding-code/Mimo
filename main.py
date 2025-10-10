@@ -1,68 +1,66 @@
 
 
-# import modules
-
+# chargement des modules
+# - modules standards
+# - modules téléchargés
+# - modules crées
 import time
-import json
 import pygame
-import Scripts.inputs as inputs
-import Scripts.tileset as tileset
-import Scripts.game_map as game_map
-import Scripts.scene as scene
-import Scripts.objects as objects
+from Scripts.config import *
+from Scripts.scene_manager import *
 
-# initialize pygame
+
+# initialisation de pygame si c'est pas fait
 if not pygame.get_init():
     pygame.init()
 
-# initialize tilesets
-if not tileset.getInit():
-    tileset.init()
 
-# initialize maps
-if not game_map.getInit():
-    game_map.init()
+# classe principale du jeu, contient les objets de base comme la
+# fenêtre d'affichage, la surface de dessin etc
+class Game:
 
-# initialize first scene
-scene.sceneAppend("scene_map")
+    # initialisation
+    def __init__(self):
+
+        # charge la configuration
+        Config.load()
+
+        # initialise tout le camboui
+        self.running = True
+        self.window = pygame.display.set_mode(Config.resolutions[Config.Graphics.Window.size])
+        self.display = pygame.Surface(Config.resolutions[Config.Graphics.Display.size])
+        self.clock = pygame.time.Clock()
+        self.scene_manager = SceneManager(self, "test")
+
+        # modifie le nom de la fenêtre
+        pygame.display.set_caption(f"{Config.Game.title} - v{Config.Game.version}")
+
+        # démarre la boucle principale
+        self.main_loop()
+
+    # boucle principale
+    def main_loop(self):
+        previous_tick = time.time()
+        current_tick = previous_tick
+        while self.running:
+            # calcul du temps écoulé entre deux itération de la boucle
+            current_tick = time.time()
+            elapsed_time = current_tick - previous_tick
+            previous_tick = current_tick
+            # calcul du delta time
+            delta_time = elapsed_time * Config.General.fps
+            # mises à jour des entrées et données
+            self.display.fill([0, 0, 0])
+            self.scene_manager.update(pygame.event.get(), delta_time)
+            if self.scene_manager.should_quit:
+                self.running = False
+                break
+            self.clock.tick(Config.General.fps)
+            # mises à jour graphiques
+            self.window.blit(pygame.transform.scale(self.display, Config.resolutions[Config.Graphics.Window.size]))
+            pygame.display.update()
 
 
-# main loop
-running = True
-current_tick = time.time()
-previous_tick = time.time()
-
-while running:
-
-    # handle pygame events
-    for event in pygame.event.get():
-
-        # handle keyboard, joysticks etc first
-        inputs.update(event)
-        
-        # handle quit event (when closing the window or alt+F4)
-        if event.type == pygame.QUIT:
-            running = False
-
-    current_tick = time.time()
-    elapsed_time = float(current_tick - previous_tick) * 30
-    previous_tick = current_tick
-
-    # handle player inputs
-    scene.updateInputs(elapsed_time)
-
-    # clear display in black
-    objects.display.fill([0, 0, 0])
-
-    # update scene graphics
-    scene.updateGraphics()
-
-    # draw display on window
-    objects.window.blit(pygame.transform.scale(objects.display, objects.WINDOW_SIZE))
-
-    # update pygame graphics
-    pygame.display.update()
-
-    # limit fps
-    objects.clock.tick(objects.FPS)
-    
+# point d'entrée 
+if __name__ == "__main__":
+    mimo = Game()

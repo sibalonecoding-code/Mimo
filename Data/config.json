@@ -1,27 +1,27 @@
 {
-
 	"game": {
 		"title": "Mimo",
-		"version": 0.1,
-		"sizes": [
-			[320, 240],
-			[640, 480],
-			[960, 720],
-			[1280, 960]
-		],
+		"version": 0.1
+	},
+
+	"general": {
 		"fps": 30
 	},
 
-	"tile": {
-		"size": 16
+	"graphics": {
+		"window": {
+			"size": 3
+		},
+		"display": {
+			"size": 0
+		}
 	},
 
-	"window": {
-		"size": 3
-	},
-
-	"display": {
-		"size": [320, 240]
+	"audio": {
+		"general": 100,
+		"music": 100,
+		"sfx": 100,
+		"mute": false
 	}
-	
+
 }
